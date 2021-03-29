@@ -39,7 +39,7 @@ def create_new_list_of_records(write=False) -> list:
     }
     if write:
         write_list([record])
-    return [record]
+    return record
 
 
 def write_list(list_of_records: list, filename='music_library.json'):
@@ -47,7 +47,7 @@ def write_list(list_of_records: list, filename='music_library.json'):
     Function for write list.
     """
     with open(filename, "w") as f:
-        json.dump(list_of_records, f)
+        json.dump(list_of_records, f, indent=4)
 
 
 def read_list(filename='music_library.json') -> list:
@@ -60,13 +60,23 @@ def read_list(filename='music_library.json') -> list:
 
     except FileNotFoundError:
         key = input('The file is damaged. Create a new file? y/n ')
-        list_of_records = create_new_list_of_records(write=(key == 'y'))
+        list_of_records = [create_new_list_of_records(write=(key == 'y'))]
     return list_of_records
 
 
 '''
 
 add / change / delete
+Уточнить:
+1. В завданні написано: альбомів можу бути декілька, учасників декілька
+тому питання, чи критично, що буде можливість записати декілька 
+назв чи років випуску? Чи обмежити таку можливість?
+2. В завданні написано: Програма має також давати змогу,
+додавати/змінювати/видаляти виконавця та альбоми в
+ньому. Питання: при внесенні змін до виконавця, змінюється і поле альбом.
+Чи потрібне окреме меню на редагування альбомів? Якщо "так", то чи потрібно таке ж меню
+для редагування учасинків?
+
 '''
 
 
@@ -80,7 +90,7 @@ def add_record():
 def change_record():
     print('\nEnter number of record for change:')
     for n, i in enumerate(list_of_records):
-        print(n + 1, i["name of group"])
+        print(n + 1, *i["name of group"])
     number = input('Change record number ')
     if number.isdigit():
         number = int(number) - 1
@@ -96,20 +106,18 @@ def change_record():
 def del_record():
     print('\nEnter number of record for delete:')
     for n, i in enumerate(list_of_records):
-        print(n + 1, i["name of group"])
+        print(n + 1, *i["name of group"])
     number = input('Delete record number ')
     if number.isdigit():
         number = int(number) - 1
         if 0 <= number < len(list_of_records):
             if func_music_library.delete(
-                    list_of_records[number]["name of group"]):
+                    ', '.join(list_of_records[number]["name of group"])):
                 del list_of_records[number]
         else:
             print('You made mistake')
     else:
         print('You made mistake')
-    #
-    pass
 
 
 def view_the_list():
