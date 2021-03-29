@@ -1,15 +1,15 @@
-def add(elem_name: str) -> str:
+def add(elem_name: str) -> list:
     '''
     Provides the ability to add an item. 
-    Returns the value of the element.
+    Returns the list of values of the element.
     '''
     pass
 
 
-def change(elem_name: str, elem_value: str) -> str:
+def change(elem_name: str, elem_value: str) -> list:
     '''
     Allows you to change the value of the item.
-    Returns new value of elem.
+    Returns new list of values of element.
     '''
     pass
 
